@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class DisplayTeams
@@ -31,9 +32,11 @@ public class DisplayTeams extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		String url = "/HomePage.jsp";
-				
-		ServletContext context = getServletContext();
-		RequestDispatcher dispatcher = context.getRequestDispatcher(url);
+		String[] teamNames = null;
+		HttpSession session = request.getSession();
+		
+		session.setAttribute("teamNames", teamNames);
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
 		dispatcher.forward(request, response);
 	}
 
