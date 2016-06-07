@@ -1,8 +1,12 @@
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,9 +35,31 @@ public class DisplayTeams extends HttpServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		String url = "/HomePage.jsp";
+		String url = "/index.jsp";
 		String[] teamNames = null;
 		HttpSession session = request.getSession();
+		Connection myConnection = null;
+		String userName = "mallen";
+		String password = "1234";
+		Properties connectionProps = new Properties();
+		
+		connectionProps.put("user", userName);
+		connectionProps.put("password", password);
+		
+		try
+		{
+			myConnection = DriverManager.getConnection("jdbc:derby://localhost:1527/LeagueDB", connectionProps);
+			ResultSet rs = myConnection.prepareStatement("SELECT TEAMNAME, HEADCOACH, ASSTCOACH, MANAGER FROM TEAMS").executeQuery();
+			
+			while(rs.next())
+			{
+				System.out.print(rs.getString("TEAMNAME"));
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
 		
 		session.setAttribute("teamNames", teamNames);
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);

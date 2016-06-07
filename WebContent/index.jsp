@@ -7,8 +7,6 @@
 <title>NHL Teams</title>
 </head>
 <body>
-	<%
-	
-	%>
+	<p>Hello World!</p>
 </body>
 </html>
