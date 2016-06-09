@@ -39,8 +39,8 @@ public class DisplayTeams extends HttpServlet
 		String[] teamNames = null;
 		HttpSession session = request.getSession();
 		Connection myConnection = null;
-		String userName = "mallen";
-		String password = "1234";
+		String userName = request.getParameter("username");
+		String password = request.getParameter("password");
 		Properties connectionProps = new Properties();
 		
 		connectionProps.put("user", userName);
@@ -50,11 +50,6 @@ public class DisplayTeams extends HttpServlet
 		{
 			myConnection = DriverManager.getConnection("jdbc:derby://localhost:1527/LeagueDB", connectionProps);
 			ResultSet rs = myConnection.prepareStatement("SELECT TEAMNAME, HEADCOACH, ASSTCOACH, MANAGER FROM TEAM").executeQuery();
-			
-			while(rs.next())
-			{
-				System.out.print(rs.getString("TEAMNAME"));
-			}
 		}
 		catch(SQLException e)
 		{

@@ -4,13 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Login</title>
+<title>NHL Teams</title>
 </head>
 <body>
-	<form action="/DisplayTeams">
-		Username: <br><input type="text" name="username"/><br>	
-		Password: <br><input type="password" name="password"/><br><br>
-		<input type="submit" value="Submit"/>
-	</form>
+
 </body>
 </html>
