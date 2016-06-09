@@ -49,7 +49,7 @@ public class DisplayTeams extends HttpServlet
 		try
 		{
 			myConnection = DriverManager.getConnection("jdbc:derby://localhost:1527/LeagueDB", connectionProps);
-			ResultSet rs = myConnection.prepareStatement("SELECT TEAMNAME, HEADCOACH, ASSTCOACH, MANAGER FROM TEAMS").executeQuery();
+			ResultSet rs = myConnection.prepareStatement("SELECT TEAMNAME, HEADCOACH, ASSTCOACH, MANAGER FROM TEAM").executeQuery();
 			
 			while(rs.next())
 			{
