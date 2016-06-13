@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
@@ -35,37 +36,40 @@ public class DisplayTeams extends HttpServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		String url = "/index.jsp";
-		String[] teamNames = null;
+		String url = "/Assign1/AllTeams.jsp";
 		HttpSession session = request.getSession();
 		Connection myConnection = null;
 		String userName = request.getParameter("username");
 		String password = request.getParameter("password");
 		Properties connectionProps = new Properties();
+		ArrayList<Team> teams = new ArrayList<Team>();
+		Team currentTeam = new Team();
 		
 		connectionProps.put("user", userName);
 		connectionProps.put("password", password);
 		
 		try
 		{
-			myConnection = DriverManager.getConnection("jdbc:derby://localhost:1527/LeagueDB", connectionProps);
+			myConnection = DriverManager.getConnection("jdbc:derby://localhost:1527/G:/School Stuff/Term 6/Java/glassfish4/LeagueDB", connectionProps);
 			ResultSet rs = myConnection.prepareStatement("SELECT TEAMNAME, HEADCOACH, ASSTCOACH, MANAGER FROM TEAM").executeQuery();
+			
+			while(rs.next())
+			{
+				currentTeam.setName(rs.getString("TEAMNAME"));
+				currentTeam.setHeadCoach(rs.getString("HEADCOACH"));
+				currentTeam.setAsstCoach(rs.getString("ASSTCOACH"));
+				currentTeam.setManager(rs.getString("MANAGER"));
+				teams.add(currentTeam);
+			}
+			
+			session.setAttribute("Teams", teams);
 		}
 		catch(SQLException e)
 		{
 			e.printStackTrace();
 		}
 		
-		session.setAttribute("teamNames", teamNames);
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
 		dispatcher.forward(request, response);
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-	}
-
 }
