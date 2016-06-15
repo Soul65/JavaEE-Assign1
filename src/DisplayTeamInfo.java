@@ -18,15 +18,15 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet implementation class DisplayTeams
  */
-@WebServlet("/DisplayTeams")
-public class DisplayTeams extends HttpServlet 
+@WebServlet("/DisplayTeamInfo")
+public class DisplayTeamInfo extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DisplayTeams() 
+    public DisplayTeamInfo() 
     {
         super();
     }
@@ -36,13 +36,14 @@ public class DisplayTeams extends HttpServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		String url = "/AllTeams.jsp";
+		String url = "/TeamInfo.jsp";
 		HttpSession session = request.getSession();
 		Connection myConnection = null;
 		String userName = request.getParameter("username");
 		String password = request.getParameter("password");
-		Properties connectionProps = new Properties();
-		ArrayList<Team> teams = new ArrayList<Team>();		
+		Properties connectionProps = new Properties();				
+		String teamID = request.getParameter("teamID");		
+		ArrayList<TeamPlayer> roster = new ArrayList<TeamPlayer>();
 		
 		connectionProps.put("user", userName);
 		connectionProps.put("password", password);
@@ -51,29 +52,21 @@ public class DisplayTeams extends HttpServlet
 		{
 			//jdbc:derby://localhost:1527/G:/School Stuff/Term 6/Java/glassfish4/LeagueDB
 			myConnection = DriverManager.getConnection("jdbc:derby://localhost:1527/LeagueDB", connectionProps);
-			ResultSet rs = myConnection.prepareStatement("SELECT TEAMID, TEAMNAME, " +
-				"heads.FIRSTNAME || ' ' || heads.LASTNAME AS HEADCOACH, " + 
-				"assts.FIRSTNAME || ' ' || assts.LASTNAME AS ASSTCOACH, " + 
-				"manages.FIRSTNAME || ' ' || manages.LASTNAME AS MANAGER " + 
-				"FROM TEAM " +
-				"JOIN STAFF heads ON HEADCOACH = heads.STAFFID " +
-				"JOIN STAFF assts ON ASSTCOACH = assts.STAFFID " +
-				"JOIN STAFF manages ON MANAGER = manages.STAFFID").executeQuery();
+			ResultSet rs = myConnection.prepareStatement("SELECT FIRSTNAME || ' ' || LASTNAME AS NAME, POSITION, JERSEY " + 
+				"FROM ROSTER JOIN PLAYER " +
+				"ON PLAYER = PLAYERID " +
+				"WHERE TEAM = '" + teamID + "'").executeQuery();
 			
 			while(rs.next())
 			{
-				Team currentTeam = new Team();
-				currentTeam.setTeamID(rs.getString("TEAMID"));
-				currentTeam.setName(rs.getString("TEAMNAME"));
-				currentTeam.setHeadCoach(rs.getString("HEADCOACH"));
-				currentTeam.setAsstCoach(rs.getString("ASSTCOACH"));
-				currentTeam.setManager(rs.getString("MANAGER"));
-				teams.add(currentTeam);
+				TeamPlayer player = new TeamPlayer();
+				player.setName(rs.getString("NAME"));
+				player.setPosition(rs.getString("POSITION"));
+				player.setJersey(rs.getInt("JERSEY"));
+				roster.add(player);
 			}
 			
-			session.setAttribute("Teams", teams);
-			session.setAttribute("username", userName);
-			session.setAttribute("password", password);
+			session.setAttribute("Roster", roster);
 		}
 		catch(SQLException e)
 		{

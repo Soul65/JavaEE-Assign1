@@ -1,9 +1,10 @@
 public class Team
 {
-	private String Name;
-	private String Manager;
+	private String TeamID;
+	private String Name;	
 	private String HeadCoach;
 	private String AsstCoach;
+	private String Manager;
 	
 	public Team()
 	{
@@ -12,8 +13,18 @@ public class Team
 		setHeadCoach(null);
 		setAsstCoach(null);
 	}
+	
+	public String getTeamID() 
+	{
+		return TeamID;
+	}
 
-	String getName() 
+	void setTeamID(String teamID) 
+	{
+		TeamID = teamID;
+	}
+
+	public String getName() 
 	{
 		return Name;
 	}
@@ -23,17 +34,7 @@ public class Team
 		Name = name;
 	}
 
-	String getManager() 
-	{
-		return Manager;
-	}
-
-	void setManager(String manager) 
-	{
-		Manager = manager;
-	}
-
-	String getHeadCoach() 
+	public String getHeadCoach() 
 	{
 		return HeadCoach;
 	}
@@ -43,7 +44,7 @@ public class Team
 		HeadCoach = headCoach;
 	}
 
-	String getAsstCoach() 
+	public String getAsstCoach() 
 	{
 		return AsstCoach;
 	}
@@ -52,4 +53,14 @@ public class Team
 	{
 		AsstCoach = asstCoach;
 	}
+	
+	public String getManager() 
+	{
+		return Manager;
+	}
+
+	void setManager(String manager) 
+	{
+		Manager = manager;
+	}	
 }
