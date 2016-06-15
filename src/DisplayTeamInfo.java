@@ -44,6 +44,8 @@ public class DisplayTeamInfo extends HttpServlet
 		Properties connectionProps = new Properties();				
 		String teamID = request.getParameter("teamID");		
 		ArrayList<TeamPlayer> roster = new ArrayList<TeamPlayer>();
+		ArrayList<Game> games = new ArrayList<Game>();
+		ArrayList<Game> scheduledGames = new ArrayList<Game>();
 		
 		connectionProps.put("user", userName);
 		connectionProps.put("password", password);
@@ -67,6 +69,50 @@ public class DisplayTeamInfo extends HttpServlet
 			}
 			
 			session.setAttribute("Roster", roster);
+			
+			rs = myConnection.prepareStatement("SELECT GAMEDATE, GAMETIME, ARENANAME, ht.TEAMNAME AS HOME, vt.TEAMNAME AS VISITOR, "
+					+ "HOMESCORE, VISITORSCORE, OT, SO "
+					+ "FROM GAME JOIN ARENA ON ARENA = ARENAID "
+					+ "JOIN TEAM ht ON HOME = ht.TEAMID "
+					+ "JOIN TEAM vt ON VISITOR = vt.TEAMID "
+					+ "WHERE HOME = '" + teamID + "' AND HOMESCORE IS NOT NULL").executeQuery();
+			
+			while(rs.next())
+			{
+				Game game = new Game();
+				game.setGameDate(rs.getDate("GAMEDATE"));
+				game.setGameTime(rs.getTime("GAMETIME"));
+				game.setArena(rs.getString("ARENANAME"));
+				game.setHome(rs.getString("HOME"));
+				game.setVisitor(rs.getString("VISITOR"));
+				game.setHomeScore(rs.getInt("HOMESCORE"));
+				game.setVisitorScore(rs.getInt("VISITORSCORE"));
+				game.setOvertime(rs.getString("OT").charAt(0));
+				game.setShootOut(rs.getString("SO").charAt(0));
+				games.add(game);
+			}
+			
+			session.setAttribute("Games", games);
+			
+			rs = myConnection.prepareStatement("SELECT GAMEDATE, GAMETIME, ARENANAME, ht.TEAMNAME AS HOME, vt.TEAMNAME AS VISITOR, "
+					+ "HOMESCORE, VISITORSCORE, OT, SO "
+					+ "FROM GAME JOIN ARENA ON ARENA = ARENAID "
+					+ "JOIN TEAM ht ON HOME = ht.TEAMID "
+					+ "JOIN TEAM vt ON VISITOR = vt.TEAMID "
+					+ "WHERE HOME = '" + teamID + "' AND HOMESCORE IS NULL").executeQuery();
+			
+			while(rs.next())
+			{
+				Game game = new Game();
+				game.setGameDate(rs.getDate("GAMEDATE"));
+				game.setGameTime(rs.getTime("GAMETIME"));
+				game.setArena(rs.getString("ARENANAME"));
+				game.setHome(rs.getString("HOME"));
+				game.setVisitor(rs.getString("VISITOR"));
+				scheduledGames.add(game);
+			}
+			
+			session.setAttribute("ScheduledGames", scheduledGames);
 		}
 		catch(SQLException e)
 		{

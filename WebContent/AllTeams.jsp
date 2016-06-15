@@ -8,6 +8,7 @@
 		<title>NHL Teams</title>
 	</head>
 	<body>
+	<h2>NHL Teams</h2>
 		<table border="1">
 			<tr>
 				<th>Team Name</th>

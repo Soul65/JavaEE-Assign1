@@ -23,5 +23,51 @@
 				</tr>
 			</c:forEach>
 		</table>
+		<h2>Games</h2>
+		<table border="1">
+			<tr>
+				<th>GameDate</th>
+				<th>GameTime</th>
+				<th>Arena</th>
+				<th>Home</th>
+				<th>Visitor</th>
+				<th>HomeScore</th>
+				<th>VisitorScore</th>
+				<th>Overtime</th>
+				<th>ShootOut</th>
+			</tr>
+			<c:forEach items="${Games}" var="game">
+				<tr>
+					<td><c:out value="${game.getGameDate()}"/></td>
+					<td><c:out value="${game.getGameTime()}"/></td>
+					<td><c:out value="${game.getArena()}"/></td>
+					<td><c:out value="${game.getHome()}"/></td>
+					<td><c:out value="${game.getVisitor()}"/></td>
+					<td><c:out value="${game.getHomeScore()}"/></td>
+					<td><c:out value="${game.getVisitorScore()}"/></td>
+					<td><c:out value="${game.getOvertime()}"/></td>
+					<td><c:out value="${game.getShootOut()}"/></td>
+				</tr>
+			</c:forEach>
+		</table>
+		<h2>Scheduled Games</h2>
+		<table border="1">
+			<tr>
+				<th>GameDate</th>
+				<th>GameTime</th>
+				<th>Arena</th>
+				<th>Home</th>
+				<th>Visitor</th>
+			</tr>
+			<c:forEach items="${ScheduledGames}" var="game">
+				<tr>
+					<td><c:out value="${game.getGameDate()}"/></td>
+					<td><c:out value="${game.getGameTime()}"/></td>
+					<td><c:out value="${game.getArena()}"/></td>
+					<td><c:out value="${game.getHome()}"/></td>
+					<td><c:out value="${game.getVisitor()}"/></td>
+				</tr>
+			</c:forEach>
+		</table>
 	</body>
 </html>
