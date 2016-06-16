@@ -4,6 +4,8 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+<%-- 		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script> --%>
 		<title>Login</title>
 	</head>
 	<body>

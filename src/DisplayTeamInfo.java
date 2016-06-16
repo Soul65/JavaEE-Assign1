@@ -46,6 +46,10 @@ public class DisplayTeamInfo extends HttpServlet
 		ArrayList<TeamPlayer> roster = new ArrayList<TeamPlayer>();
 		ArrayList<Game> games = new ArrayList<Game>();
 		ArrayList<Game> scheduledGames = new ArrayList<Game>();
+		int wins = 0;
+		int losses = 0;
+		int OTs = 0;
+		int SOs = 0;
 		
 		connectionProps.put("user", userName);
 		connectionProps.put("password", password);
@@ -90,9 +94,32 @@ public class DisplayTeamInfo extends HttpServlet
 				game.setOvertime(rs.getString("OT").charAt(0));
 				game.setShootOut(rs.getString("SO").charAt(0));
 				games.add(game);
+				
+				if(rs.getInt("HOMESCORE") > rs.getInt("VISITORSCORE"))
+				{
+					wins++;
+				}
+				else
+				{
+					losses++;
+				}
+				
+				if(rs.getString("OT").charAt(0) == 'Y')
+				{
+					OTs++;
+				}
+				
+				if(rs.getString("SO").charAt(0) == 'Y')
+				{
+					SOs++;
+				}
 			}
 			
 			session.setAttribute("Games", games);
+			session.setAttribute("Wins", wins);
+			session.setAttribute("Losses", losses);
+			session.setAttribute("OTs", OTs);
+			session.setAttribute("SOs", SOs);
 			
 			rs = myConnection.prepareStatement("SELECT GAMEDATE, GAMETIME, ARENANAME, ht.TEAMNAME AS HOME, vt.TEAMNAME AS VISITOR, "
 					+ "HOMESCORE, VISITORSCORE, OT, SO "
@@ -112,7 +139,7 @@ public class DisplayTeamInfo extends HttpServlet
 				scheduledGames.add(game);
 			}
 			
-			session.setAttribute("ScheduledGames", scheduledGames);
+			session.setAttribute("ScheduledGames", scheduledGames);			
 		}
 		catch(SQLException e)
 		{
