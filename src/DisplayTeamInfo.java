@@ -56,8 +56,7 @@ public class DisplayTeamInfo extends HttpServlet
 		
 		try
 		{
-			//jdbc:derby://localhost:1527/G:/School Stuff/Term 6/Java/glassfish4/LeagueDB
-			myConnection = DriverManager.getConnection("jdbc:derby://localhost:1527/LeagueDB", connectionProps);
+			myConnection = DriverManager.getConnection("jdbc:derby://localhost:1527/G:/School Stuff/Term 6/Java/glassfish4/LeagueDB", connectionProps);
 			ResultSet rs = myConnection.prepareStatement("SELECT FIRSTNAME || ' ' || LASTNAME AS NAME, POSITION, JERSEY " + 
 				"FROM ROSTER JOIN PLAYER " +
 				"ON PLAYER = PLAYERID " +
@@ -73,6 +72,7 @@ public class DisplayTeamInfo extends HttpServlet
 			}
 			
 			session.setAttribute("Roster", roster);
+			session.setAttribute("teamName", request.getParameter("teamName"));
 			
 			rs = myConnection.prepareStatement("SELECT GAMEDATE, GAMETIME, ARENANAME, ht.TEAMNAME AS HOME, vt.TEAMNAME AS VISITOR, "
 					+ "HOMESCORE, VISITORSCORE, OT, SO "

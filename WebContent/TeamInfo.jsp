@@ -8,6 +8,7 @@
 		<title>Team Info</title>
 	</head>
 	<body>
+		<h1><c:out value="${teamName}"/></h1>
 		<h2>Team Roster</h2>
 		<table border="1">
 			<tr>
@@ -15,11 +16,11 @@
 				<th>Position</th>
 				<th>Jersey Number</th>
 			</tr>
-			<c:forEach items="${Roster}" var="team">
+			<c:forEach items="${Roster}" var="player">
 				<tr>
-					<td><c:out value="${team.getName()}"/></td>
-					<td><c:out value="${team.getPosition()}"/></td>
-					<td><c:out value="${team.getJersey()}"/></td>
+					<td><c:out value="${player.getName()}"/></td>
+					<td><c:out value="${player.getPosition()}"/></td>
+					<td><c:out value="${player.getJersey()}"/></td>
 				</tr>
 			</c:forEach>
 		</table>

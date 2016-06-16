@@ -23,6 +23,7 @@
 							<c:param name="username" value="${username}"/>
 							<c:param name="password" value="${password}"/>
 							<c:param name="teamID" value="${team.getTeamID()}"/>
+							<c:param name="teamName" value="${team.getName()}"/>
 						</c:url>
 						<a href="<c:url value="${teamUrl}"/>">${team.getName()}</a>
 					</td>

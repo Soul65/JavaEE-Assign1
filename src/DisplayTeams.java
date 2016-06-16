@@ -49,8 +49,7 @@ public class DisplayTeams extends HttpServlet
 		
 		try
 		{
-			//jdbc:derby://localhost:1527/G:/School Stuff/Term 6/Java/glassfish4/LeagueDB
-			myConnection = DriverManager.getConnection("jdbc:derby://localhost:1527/LeagueDB", connectionProps);
+			myConnection = DriverManager.getConnection("jdbc:derby://localhost:1527/G:/School Stuff/Term 6/Java/glassfish4/LeagueDB", connectionProps);
 			ResultSet rs = myConnection.prepareStatement("SELECT TEAMID, TEAMNAME, " +
 				"heads.FIRSTNAME || ' ' || heads.LASTNAME AS HEADCOACH, " + 
 				"assts.FIRSTNAME || ' ' || assts.LASTNAME AS ASSTCOACH, " + 
@@ -69,9 +68,9 @@ public class DisplayTeams extends HttpServlet
 				currentTeam.setAsstCoach(rs.getString("ASSTCOACH"));
 				currentTeam.setManager(rs.getString("MANAGER"));
 				teams.add(currentTeam);
-			}
+			}			
 			
-			session.setAttribute("Teams", teams);
+			session.setAttribute("Teams", teams);			
 			session.setAttribute("username", userName);
 			session.setAttribute("password", password);
 		}
