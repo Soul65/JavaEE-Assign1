@@ -15,6 +15,9 @@
 				<th>Head Coach</th>
 				<th>Assistant Coach</th>
 				<th>Manager</th>
+				<th>Wins</th>
+				<th>Losses</th>
+				<th>OTs</th>
 			</tr>
 			<c:forEach items="${Teams}" var="team">
 				<tr>
@@ -30,6 +33,9 @@
 					<td><c:out value="${team.getHeadCoach()}"/></td>
 					<td><c:out value="${team.getAsstCoach()}"/></td>
 					<td><c:out value="${team.getManager()}"/></td>
+					<td><c:out value="${team.getWins()}"/></td>
+					<td><c:out value="${team.getLosses()}"/></td>
+					<td><c:out value="${team.getOTs()}"/></td>
 				</tr>
 			</c:forEach>
 		</table>		

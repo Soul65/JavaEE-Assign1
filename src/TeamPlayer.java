@@ -1,4 +1,4 @@
-
+// Bean for a player in a team
 public class TeamPlayer
 {
 	private String Name;

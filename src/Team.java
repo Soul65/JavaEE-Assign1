@@ -1,3 +1,4 @@
+// Bean for NHL team
 public class Team
 {
 	private String TeamID;
@@ -5,6 +6,9 @@ public class Team
 	private String HeadCoach;
 	private String AsstCoach;
 	private String Manager;
+	private int Wins;
+	private int Losses;
+	private int OTs;
 	
 	public Team()
 	{
@@ -12,6 +16,9 @@ public class Team
 		setManager(null);
 		setHeadCoach(null);
 		setAsstCoach(null);
+		setWins(0);
+		setLosses(0);
+		setOTs(0);
 	}
 	
 	public String getTeamID() 
@@ -62,5 +69,29 @@ public class Team
 	void setManager(String manager) 
 	{
 		Manager = manager;
+	}
+
+	public int getOTs() {
+		return OTs;
+	}
+
+	void setOTs(int oTs) {
+		OTs = oTs;
+	}
+
+	public int getLosses() {
+		return Losses;
+	}
+
+	void setLosses(int losses) {
+		Losses = losses;
+	}
+
+	public int getWins() {
+		return Wins;
+	}
+
+	void setWins(int wins) {
+		Wins = wins;
 	}	
 }

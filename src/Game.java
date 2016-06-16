@@ -1,3 +1,4 @@
+// Bean for a teams game
 import java.sql.Date;
 import java.sql.Time;
 

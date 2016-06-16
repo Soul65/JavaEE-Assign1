@@ -70,20 +70,5 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<h2>Standings</h2>
-		<table border="1">
-			<tr>
-				<th>Wins</th>
-				<th>Losses</th>
-				<th>Overtimes</th>
-				<th>Shoot-Outs</th>
-			</tr>
-			<tr>
-				<td><c:out value="${Wins}"/></td>
-				<td><c:out value="${Losses}"/></td>
-				<td><c:out value="${OTs}"/></td>
-				<td><c:out value="${SOs}"/></td>
-			</tr>
-		</table>
 	</body>
 </html>

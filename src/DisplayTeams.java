@@ -1,3 +1,9 @@
+/* Name: Matt Allen and Rob Syed
+ * PROG3060
+ * Assignment 1
+ * Date: 06/16/16
+ * Description: Displays NHL teams
+ * */
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -45,10 +51,11 @@ public class DisplayTeams extends HttpServlet
 		ArrayList<Team> teams = new ArrayList<Team>();		
 		
 		connectionProps.put("user", userName);
-		connectionProps.put("password", password);
+		connectionProps.put("password", password);		
 		
 		try
 		{
+			// Get db connection
 			myConnection = DriverManager.getConnection("jdbc:derby://localhost:1527/G:/School Stuff/Term 6/Java/glassfish4/LeagueDB", connectionProps);
 			ResultSet rs = myConnection.prepareStatement("SELECT TEAMID, TEAMNAME, " +
 				"heads.FIRSTNAME || ' ' || heads.LASTNAME AS HEADCOACH, " + 
@@ -59,6 +66,7 @@ public class DisplayTeams extends HttpServlet
 				"JOIN STAFF assts ON ASSTCOACH = assts.STAFFID " +
 				"JOIN STAFF manages ON MANAGER = manages.STAFFID").executeQuery();
 			
+			// Loop through all teams
 			while(rs.next())
 			{
 				Team currentTeam = new Team();
@@ -66,17 +74,51 @@ public class DisplayTeams extends HttpServlet
 				currentTeam.setName(rs.getString("TEAMNAME"));
 				currentTeam.setHeadCoach(rs.getString("HEADCOACH"));
 				currentTeam.setAsstCoach(rs.getString("ASSTCOACH"));
-				currentTeam.setManager(rs.getString("MANAGER"));
+				currentTeam.setManager(rs.getString("MANAGER"));				
+								
+				ResultSet gamesRS = myConnection.prepareStatement("SELECT HOMESCORE, VISITORSCORE, OT "
+						+ "FROM GAME WHERE HOME = '" + rs.getString("TEAMID") + "' AND HOMESCORE IS NOT NULL").executeQuery();
+				
+				int wins = 0;
+				int losses = 0;
+				int OTs = 0;
+				
+				// Loops through teams games to calculate standings
+				while(gamesRS.next())
+				{
+					if(gamesRS.getInt("HOMESCORE") > gamesRS.getInt("VISITORSCORE"))
+					{
+						
+						wins++;
+					}
+					else
+					{
+						losses++;
+					}
+					
+					if(gamesRS.getString("OT").charAt(0) == 'Y')
+					{
+						OTs++;
+					}
+				}
+				
+				currentTeam.setWins(wins);
+				currentTeam.setLosses(losses);
+				currentTeam.setOTs(OTs);				
+				
 				teams.add(currentTeam);
-			}			
+			}
 			
 			session.setAttribute("Teams", teams);			
 			session.setAttribute("username", userName);
 			session.setAttribute("password", password);
+			session.setAttribute("error", "");
 		}
 		catch(SQLException e)
 		{
 			e.printStackTrace();
+			url = "/index.jsp";
+			session.setAttribute("error", "Wrong username and/or password");
 		}
 		
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
